@@ -26,7 +26,7 @@ dependencies {
 		</repository>
 	</repositories>
   ```
-  ```
+  ```xml
   <dependency>
     <groupId>com.github.Fernthedev</groupId>
     <artifactId>fern-configmanager</artifactId>
