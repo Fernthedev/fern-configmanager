@@ -10,11 +10,22 @@ import okio.Source;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ *
+ * @param <T> The data type
+ */
 public abstract class Config<T> {
+
+    /**
+     * The data instance. It is recommended it uses the {@code lombok.Data} annotation
+     */
     @NonNull
     @Getter
     protected T configData;
 
+    /**
+     * The file that stores the {@link #configData}
+     */
     @NonNull
     @Getter
     protected File file;
