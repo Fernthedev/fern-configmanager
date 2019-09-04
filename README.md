@@ -2,6 +2,7 @@
 This is a config manager that allows you to use various data managers such as GSON, fast json and hopefully more to come.'
 
 ## Download
+[![](https://jitpack.io/v/Fernthedev/fern-configmanager.svg)](https://jitpack.io/#Fernthedev/fern-configmanager)
 ### Gradle
 ```gradle
 allprojects {
