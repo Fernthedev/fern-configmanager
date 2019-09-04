@@ -33,7 +33,7 @@ dependencies {
     <version>1.0</version> // Check github releases tag for the version.
 </dependency>
   ```
-
+## Usage
 This is the GSON usage but the FastJSON is the same except the different name of course.
 ```java
 GsonConfig config = new GsonConfig<>(new ConfigClass(), new File("file.anyextension"); // Calls load() on constructor. If file doesn't exist on load(), it calls save();
