@@ -10,7 +10,7 @@ import java.io.File;
  *
  * @param <T>
  */
-public class FastJSONConfig<T> extends Config {
+public class FastJSONConfig<T> extends Config<T> {
     public FastJSONConfig(@NonNull T gsonConfigData, @NonNull File file) {
         super(gsonConfigData, file);
     }

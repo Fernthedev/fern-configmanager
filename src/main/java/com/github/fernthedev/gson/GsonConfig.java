@@ -11,7 +11,7 @@ import java.io.File;
  *
  * @param <T> The data type
  */
-public class GsonConfig<T> extends Config {
+public class GsonConfig<T> extends Config<T> {
     public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) {
         super(gsonConfigData, file);
     }
