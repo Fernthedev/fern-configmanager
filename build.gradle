@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id "io.freefair.lombok" version "4.0.1"
 }
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 group 'com.github.Fernthedev'
 version '1.0.2'
@@ -17,4 +19,38 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.5'
     compile ("com.squareup.okio:okio:2.4.0")
     compile 'com.alibaba:fastjson:1.2.59'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.java
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+build.dependsOn sourcesJar
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            groupId = this.group;
+            artifactId = this.archivesBaseName
+            version = this.version
+
+            artifact sourcesJar {
+                classifier "sources"
+            }
+
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+        }
+    }
 }
