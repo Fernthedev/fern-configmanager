@@ -14,7 +14,7 @@ allprojects {
 ```
 ```gradle
 dependencies {
-        implementation 'com.github.Fernthedev:fern-configmanager:1.0.2' // Check github releases tag for the version.
+        implementation 'com.github.Fernthedev:fern-configmanager:1.0.4' // Check github releases tag for the version.
 }
 ```
 
@@ -31,7 +31,7 @@ dependencies {
   <dependency>
     <groupId>com.github.Fernthedev</groupId>
     <artifactId>fern-configmanager</artifactId>
-    <version>1.0.2</version> <!-- Check github releases tag for the version. -->
+    <version>1.0.4</version> <!-- Check github releases tag for the version. -->
 </dependency>
   ```
 ## Usage
