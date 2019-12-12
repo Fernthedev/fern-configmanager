@@ -6,9 +6,13 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'com.github.Fernthedev'
-version '1.0.4'
+version '1.1.0'
 
-sourceCompatibility = 1.8
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
@@ -16,9 +20,9 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.code.gson:gson:2.8.6'
     compile ("com.squareup.okio:okio:2.4.0")
-    compile 'com.alibaba:fastjson:1.2.59'
+    compile 'com.alibaba:fastjson:1.2.62'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -34,6 +38,9 @@ artifacts {
 }
 
 build.dependsOn sourcesJar
+
+jar.finalizedBy sourcesJar
+jar.finalizedBy javadocJar
 
 publishing {
     publications {

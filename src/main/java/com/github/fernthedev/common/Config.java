@@ -1,7 +1,9 @@
 package com.github.fernthedev.common;
 
+import com.github.fernthedev.common.exceptions.ConfigNullException;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Synchronized;
 import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Okio;
@@ -38,16 +40,16 @@ public abstract class Config<T> {
     }
 
     /**
-     * Saves the file
+     * Saves the file without verifying the contents of the file
      */
-    public void save() {
+    public void quickSave() {
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
 
             try (BufferedSink sink = Okio.buffer(Okio.sink(file))) {
-                sink.writeUtf8(configToFileString());
+                sink.writeUtf8(configToFileString()).writeUtf8(System.lineSeparator());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,12 +57,26 @@ public abstract class Config<T> {
     }
 
     /**
+     *  Saves the file, then verifies if the contents were saved successfully
+     * @throws ConfigNullException Thrown when the config information is null or malformed.
+     */
+    public boolean save() {
+        String oldData = configToFileString();
+        quickSave();
+        load();
+        String newData = configToFileString();
+
+        return oldData.equals(newData);
+    }
+
+    /**
      *  Loads the file
+     * @throws ConfigNullException Thrown when the config information is null or malformed.
      */
     public void load() {
         try {
             if (!file.exists()) {
-                save();
+                quickSave();
             }
 
             StringBuilder json = new StringBuilder();
@@ -76,10 +92,32 @@ public abstract class Config<T> {
             }
 
             configData = parseConfigFromData(json.toString());
+
+            if (configData == null) throw new ConfigNullException("ConfigData is null. \nJSON: " + json.toString()
+                    + "\nConfigManager: " + getClass().getName());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Locks the method to the thread to stop issues
+     * while saving or loading files
+     */
+    @Synchronized
+    public void syncLoad() {
+        load();
+    }
+
+    /**
+     * Locks the method to the thread to stop issues
+     * while saving or loading files
+     */
+    @Synchronized
+    public void syncSave() {
+        quickSave();
     }
 
     /**
@@ -93,5 +131,5 @@ public abstract class Config<T> {
      * @param json The String data from the file.
      * @return The object instance.
      */
-    protected abstract T parseConfigFromData(String json);
+    protected abstract T parseConfigFromData(@NonNull String json);
 }

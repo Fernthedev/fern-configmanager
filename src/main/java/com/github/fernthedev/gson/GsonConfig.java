@@ -6,6 +6,7 @@ import com.github.fernthedev.common.Config;
 import lombok.NonNull;
 
 import java.io.File;
+import java.lang.reflect.Type;
 
 /**
  *
@@ -32,7 +33,7 @@ public class GsonConfig<T> extends Config<T> {
      */
     @Override
     protected T parseConfigFromData(String json) {
-        return (T) new Gson().fromJson(json, configData.getClass());
+        return new Gson().fromJson(json, (Type) configData.getClass());
     }
 
 }
