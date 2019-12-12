@@ -5,7 +5,6 @@ import com.github.fernthedev.common.Config;
 import lombok.NonNull;
 
 import java.io.File;
-import java.lang.reflect.Type;
 
 /**
  *
@@ -32,7 +31,7 @@ public class FastJSONConfig<T> extends Config<T> {
      */
     @Override
     protected T parseConfigFromData(@NonNull String json) {
-        return JSON.parseObject(json, (Type) configData.getClass());
+        return JSON.parseObject(json, tClass);
     }
 
 }

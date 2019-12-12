@@ -25,6 +25,10 @@ public abstract class Config<T> {
     @Getter
     protected T configData;
 
+    @Getter
+    @NonNull
+    protected final Class<T> tClass;
+
     /**
      * The file that stores the {@link #configData}
      */
@@ -32,9 +36,11 @@ public abstract class Config<T> {
     @Getter
     protected File file;
 
+    @SuppressWarnings("unchecked")
     public Config(@NonNull T configData, @NonNull File file) {
         this.configData = configData;
         this.file = file;
+        this.tClass = (Class<T>) configData.getClass();
 
         load();
     }

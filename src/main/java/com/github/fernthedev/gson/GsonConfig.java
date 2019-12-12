@@ -1,12 +1,11 @@
 package com.github.fernthedev.gson;
 
+import com.github.fernthedev.common.Config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.github.fernthedev.common.Config;
 import lombok.NonNull;
 
 import java.io.File;
-import java.lang.reflect.Type;
 
 /**
  *
@@ -32,8 +31,8 @@ public class GsonConfig<T> extends Config<T> {
      * @return The object instance.
      */
     @Override
-    protected T parseConfigFromData(String json) {
-        return new Gson().fromJson(json, (Type) configData.getClass());
+    protected T parseConfigFromData(@NonNull String json) {
+        return new Gson().fromJson(json, tClass);
     }
 
 }

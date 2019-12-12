@@ -16,3 +16,7 @@ h
 8src/main/java/com/github/fernthedev/gson/GsonConfig.java,2\2\22b1bbe216c2df1e0681146426454b0064a976bc
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+z
+Jsrc/main/java/com/github/fernthedev/common/exceptions/ConfigException.java,7\1\716873ab4a016de02ef88a71316d3320833ef63a
+~
+Nsrc/main/java/com/github/fernthedev/common/exceptions/ConfigNullException.java,3\1\31611062b383a1fb6d72573b40fdbbbf61518e9a
