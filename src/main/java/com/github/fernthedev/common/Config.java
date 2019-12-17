@@ -123,7 +123,7 @@ public abstract class Config<T> {
      */
     @Synchronized
     public void syncSave() {
-        quickSave();
+        save();
     }
 
     /**
