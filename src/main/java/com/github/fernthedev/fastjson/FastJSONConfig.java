@@ -5,6 +5,7 @@ import com.github.fernthedev.common.Config;
 import lombok.NonNull;
 
 import java.io.File;
+import java.util.List;
 
 /**
  *
@@ -17,7 +18,7 @@ public class FastJSONConfig<T> extends Config<T> {
 
     /**
      * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(String)}
-     * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(String)}
+     * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(List)}
      */
     @Override
     protected String configToFileString() {
@@ -30,8 +31,12 @@ public class FastJSONConfig<T> extends Config<T> {
      * @return The object instance.
      */
     @Override
-    protected T parseConfigFromData(@NonNull String json) {
-        return JSON.parseObject(json, tClass);
+    protected T parseConfigFromData(@NonNull List<String> json) {
+        StringBuilder jsonString = new StringBuilder();
+
+        for (String s : json) jsonString.append(s);
+
+        return JSON.parseObject(jsonString.toString(), tClass);
     }
 
 }

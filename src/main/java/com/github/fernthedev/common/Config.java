@@ -11,6 +11,8 @@ import okio.Source;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -85,7 +87,7 @@ public abstract class Config<T> {
                 quickSave();
             }
 
-            StringBuilder json = new StringBuilder();
+            List<String> data = new ArrayList<>();
             try (Source fileSource = Okio.source(file);
                  BufferedSource bufferedSource = Okio.buffer(fileSource)) {
 
@@ -93,13 +95,13 @@ public abstract class Config<T> {
                     String line = bufferedSource.readUtf8Line();
                     if (line == null) break;
 
-                    json.append(line);
+                    data.add(line);
                 }
             }
 
-            configData = parseConfigFromData(json.toString());
+            configData = parseConfigFromData(data);
 
-            if (configData == null) throw new ConfigNullException("ConfigData is null. \nJSON: " + json.toString()
+            if (configData == null) throw new ConfigNullException("ConfigData is null. \nData: " + data.toString()
                     + "\nConfigManager: " + getClass().getName());
 
         } catch (IOException e) {
@@ -128,14 +130,14 @@ public abstract class Config<T> {
 
     /**
      * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(String)}
-     * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(String)}
+     * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(List)}
      */
     protected abstract String configToFileString();
 
     /**
      * Returns the object instance of {@link #configData} parsed from the file which is saved by {@link #configToFileString()}
-     * @param json The String data from the file.
+     * @param data The String data from the file.
      * @return The object instance.
      */
-    protected abstract T parseConfigFromData(@NonNull String json);
+    protected abstract T parseConfigFromData(@NonNull List<String> data);
 }
