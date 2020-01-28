@@ -1,8 +1,7 @@
-package com.github.fernthedev.gson;
+package com.github.fernthedev.config.fastjson;
 
-import com.github.fernthedev.common.Config;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.alibaba.fastjson.JSON;
+import com.github.fernthedev.config.common.Config;
 import lombok.NonNull;
 
 import java.io.File;
@@ -10,22 +9,20 @@ import java.util.List;
 
 /**
  *
- * @param <T> The data type
+ * @param <T>
  */
-public class GsonConfig<T> extends Config<T> {
-    private static final Gson gson = new Gson();
-
-    public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) {
+public class FastJSONConfig<T> extends Config<T> {
+    public FastJSONConfig(@NonNull T gsonConfigData, @NonNull File file) {
         super(gsonConfigData, file);
     }
 
     /**
-     * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(String)}
+     * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(List)}
      * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(List)}
      */
     @Override
     protected String configToFileString() {
-        return new GsonBuilder().setPrettyPrinting().create().toJson(configData);
+        return JSON.toJSONString(configData);
     }
 
     /**
@@ -38,7 +35,8 @@ public class GsonConfig<T> extends Config<T> {
         StringBuilder jsonString = new StringBuilder();
 
         for (String s : json) jsonString.append(s);
-        return gson.fromJson(jsonString.toString(), tClass);
+
+        return JSON.parseObject(jsonString.toString(), tClass);
     }
 
 }

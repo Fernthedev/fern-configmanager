@@ -1,6 +1,6 @@
-package com.github.fernthedev.common;
+package com.github.fernthedev.config.common;
 
-import com.github.fernthedev.common.exceptions.ConfigNullException;
+import com.github.fernthedev.config.common.exceptions.ConfigNullException;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Synchronized;
@@ -129,7 +129,7 @@ public abstract class Config<T> {
     }
 
     /**
-     * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(String)}
+     * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(List)}
      * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(List)}
      */
     protected abstract String configToFileString();

@@ -1,15 +1,12 @@
-package com.github.fernthedev.common.exceptions;
+package com.github.fernthedev.config.common.exceptions;
 
-/**
- * Is thrown when the config result is null
- */
-public class ConfigNullException extends ConfigException {
+public class ConfigException extends RuntimeException {
     /**
      * Constructs a new runtime exception with {@code null} as its
      * detail message.  The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause}.
      */
-    public ConfigNullException() {
+    public ConfigException() {
         super();
     }
 
@@ -21,7 +18,7 @@ public class ConfigNullException extends ConfigException {
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
      */
-    public ConfigNullException(String message) {
+    public ConfigException(String message) {
         super(message);
     }
 
@@ -39,7 +36,7 @@ public class ConfigNullException extends ConfigException {
      *                unknown.)
      * @since 1.4
      */
-    public ConfigNullException(String message, Throwable cause) {
+    public ConfigException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -56,7 +53,7 @@ public class ConfigNullException extends ConfigException {
      *              unknown.)
      * @since 1.4
      */
-    public ConfigNullException(Throwable cause) {
+    public ConfigException(Throwable cause) {
         super(cause);
     }
 
@@ -74,7 +71,7 @@ public class ConfigNullException extends ConfigException {
      *                           be writable
      * @since 1.7
      */
-    protected ConfigNullException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected ConfigException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
