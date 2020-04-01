@@ -6,7 +6,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'com.github.Fernthedev'
-version '1.1.4'
+version '1.2.0'
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
@@ -16,10 +16,12 @@ compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'org.yaml:snakeyaml:1.26'
     compile 'com.google.code.gson:gson:2.8.6'
     compile ("com.squareup.okio:okio:2.4.3")
     compile 'com.alibaba:fastjson:1.2.62'

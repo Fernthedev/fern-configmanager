@@ -4,6 +4,7 @@ import com.github.fernthedev.config.common.Config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.io.File;
 import java.util.List;
@@ -13,7 +14,10 @@ import java.util.List;
  * @param <T> The data type
  */
 public class GsonConfig<T> extends Config<T> {
-    private static final Gson gson = new Gson();
+    private static final Gson defaultPrettyGson = new GsonBuilder().setPrettyPrinting().create();
+
+    @Setter
+    private Gson gson = defaultPrettyGson;
 
     public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) {
         super(gsonConfigData, file);
@@ -25,7 +29,7 @@ public class GsonConfig<T> extends Config<T> {
      */
     @Override
     protected String configToFileString() {
-        return new GsonBuilder().setPrettyPrinting().create().toJson(configData);
+        return gson.toJson(configData);
     }
 
     /**
@@ -38,7 +42,7 @@ public class GsonConfig<T> extends Config<T> {
         StringBuilder jsonString = new StringBuilder();
 
         for (String s : json) jsonString.append(s);
-        return gson.fromJson(jsonString.toString(), tClass);
+        return defaultPrettyGson.fromJson(jsonString.toString(), tClass);
     }
 
 }
