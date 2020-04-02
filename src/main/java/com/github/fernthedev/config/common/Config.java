@@ -57,8 +57,14 @@ public abstract class Config<T> {
                 file.createNewFile();
             }
 
+            String data = configToFileString();
+
+            if ((data == null || data.isEmpty()) && !canBeNull()) throw new ConfigNullException("The data being saved is null or empty and it should not be allowed.");
+
+            if (data == null) data = "null";
+
             try (BufferedSink sink = Okio.buffer(Okio.sink(file))) {
-                sink.writeUtf8(configToFileString()).writeUtf8(System.lineSeparator());
+                sink.writeUtf8(data).writeUtf8(System.lineSeparator());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,6 +93,8 @@ public abstract class Config<T> {
             if (!file.exists()) {
                 quickSave();
             }
+
+
 
             List<String> data = new ArrayList<>();
             try (Source fileSource = Okio.source(file);

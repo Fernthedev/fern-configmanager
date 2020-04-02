@@ -20,3 +20,11 @@ Gsrc/main/java/com/github/fernthedev/config/fastjson/FastJSONConfig.java,6\b\6b
 Qsrc/main/java/com/github/fernthedev/config/common/exceptions/ConfigException.java,6\1\61a140fb04cb31cd77c75afa93da0a190e83cc27
 …
 Usrc/main/java/com/github/fernthedev/config/common/exceptions/ConfigNullException.java,2\d\2da0c1e1208650936211aa99c56f9c8d3687024e
+Y
+).idea/modules/fern-configmanager.main.iml,6\9\69bcd633ec86a730c9ec67bd61b8967c927f8e20
+x
+Hsrc/main/java/com/github/fernthedev/config/annotations/ConfigIgnore.java,3\8\380a215566d7f16b952c3c75de09cc1ff0dc62d6
+v
+Fsrc/main/java/com/github/fernthedev/config/annotations/ConfigName.java,0\5\0509607a00cf06dcc7b5bf9bb4ede2cac86bb2a2
+y
+Isrc/main/java/com/github/fernthedev/config/snakeyaml/SnakeYamlConfig.java,4\f\4fa80011454175dbed03337ae7b59e5362a66a6c
