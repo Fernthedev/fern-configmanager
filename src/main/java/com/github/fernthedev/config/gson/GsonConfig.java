@@ -18,10 +18,11 @@ public class GsonConfig<T> extends Config<T> {
     private static final Gson defaultPrettyGson = new GsonBuilder().setPrettyPrinting().create();
 
     @Setter
-    private Gson gson = defaultPrettyGson;
+    private Gson gson;
 
     public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
         super(gsonConfigData, file);
+        gson = defaultPrettyGson;
     }
 
     /**
