@@ -1,5 +1,6 @@
 package com.github.fernthedev.config.common;
 
+import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import com.github.fernthedev.config.common.exceptions.ConfigNullException;
 import lombok.Getter;
 import lombok.NonNull;
@@ -39,7 +40,7 @@ public abstract class Config<T> {
     protected File file;
 
     @SuppressWarnings("unchecked")
-    public Config(@NonNull T configData, @NonNull File file) {
+    public Config(@NonNull T configData, @NonNull File file) throws ConfigLoadException {
         this.configData = configData;
         this.file = file;
         this.tClass = (Class<T>) configData.getClass();
@@ -68,7 +69,7 @@ public abstract class Config<T> {
      *  Saves the file, then verifies if the contents were saved successfully
      * @throws ConfigNullException Thrown when the config information is null or malformed.
      */
-    public boolean save() {
+    public boolean save() throws ConfigLoadException {
         String oldData = configToFileString();
         quickSave();
         load();
@@ -81,7 +82,7 @@ public abstract class Config<T> {
      *  Loads the file
      * @throws ConfigNullException Thrown when the config information is null or malformed.
      */
-    public void load() {
+    public T load() throws ConfigLoadException {
         try {
             if (!file.exists()) {
                 quickSave();
@@ -101,13 +102,14 @@ public abstract class Config<T> {
 
             configData = parseConfigFromData(data);
 
-            if (configData == null) throw new ConfigNullException("ConfigData is null. \nData: " + data.toString()
+            if (configData == null && !canBeNull()) throw new ConfigNullException("ConfigData is null. \nData: " + data.toString()
                     + "\nConfigManager: " + getClass().getName());
 
+            return configData;
+
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ConfigLoadException("Unable to load config", e);
         }
-
     }
 
     /**
@@ -115,8 +117,8 @@ public abstract class Config<T> {
      * while saving or loading files
      */
     @Synchronized
-    public void syncLoad() {
-        load();
+    public T syncLoad() throws ConfigLoadException {
+        return load();
     }
 
     /**
@@ -124,8 +126,8 @@ public abstract class Config<T> {
      * while saving or loading files
      */
     @Synchronized
-    public void syncSave() {
-        save();
+    public boolean syncSave() throws ConfigLoadException {
+        return save();
     }
 
     /**
@@ -140,4 +142,12 @@ public abstract class Config<T> {
      * @return The object instance.
      */
     protected abstract T parseConfigFromData(@NonNull List<String> data);
+
+    /**
+     * Override if data being saved is nullable
+     * @return
+     */
+    protected boolean canBeNull() {
+        return false;
+    }
 }

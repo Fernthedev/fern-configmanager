@@ -3,7 +3,7 @@ package com.github.fernthedev.config.common.exceptions;
 /**
  * Is thrown when the config result is null
  */
-public class ConfigNullException extends ConfigException {
+public class ConfigNullException extends ConfigException implements IConfigException {
     /**
      * Constructs a new runtime exception with {@code null} as its
      * detail message.  The cause is not initialized, and may subsequently be
