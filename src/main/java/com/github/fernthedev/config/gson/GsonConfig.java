@@ -1,6 +1,7 @@
 package com.github.fernthedev.config.gson;
 
 import com.github.fernthedev.config.common.Config;
+import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.NonNull;
@@ -19,7 +20,7 @@ public class GsonConfig<T> extends Config<T> {
     @Setter
     private Gson gson = defaultPrettyGson;
 
-    public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) {
+    public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
         super(gsonConfigData, file);
     }
 

@@ -1,6 +1,7 @@
 package com.github.fernthedev.config.snakeyaml;
 
 import com.github.fernthedev.config.common.Config;
+import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import lombok.NonNull;
 import org.yaml.snakeyaml.Yaml;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class SnakeYamlConfig<T> extends Config<T> {
     private static final Yaml yaml = new Yaml();
 
-    public SnakeYamlConfig(@NonNull T gsonConfigData, @NonNull File file) {
+    public SnakeYamlConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
         super(gsonConfigData, file);
     }
 

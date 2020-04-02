@@ -2,6 +2,7 @@ package com.github.fernthedev.config.fastjson;
 
 import com.alibaba.fastjson.JSON;
 import com.github.fernthedev.config.common.Config;
+import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import lombok.NonNull;
 
 import java.io.File;
@@ -12,7 +13,7 @@ import java.util.List;
  * @param <T>
  */
 public class FastJSONConfig<T> extends Config<T> {
-    public FastJSONConfig(@NonNull T gsonConfigData, @NonNull File file) {
+    public FastJSONConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
         super(gsonConfigData, file);
     }
 
