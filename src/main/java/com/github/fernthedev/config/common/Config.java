@@ -4,6 +4,7 @@ import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import com.github.fernthedev.config.common.exceptions.ConfigNullException;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.Synchronized;
 import okio.BufferedSink;
 import okio.BufferedSource;
@@ -26,6 +27,7 @@ public abstract class Config<T> {
      */
     @NonNull
     @Getter
+    @Setter
     protected T configData;
 
     @Getter
