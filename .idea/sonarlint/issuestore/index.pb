@@ -28,3 +28,7 @@ v
 Fsrc/main/java/com/github/fernthedev/config/annotations/ConfigName.java,0\5\0509607a00cf06dcc7b5bf9bb4ede2cac86bb2a2
 y
 Isrc/main/java/com/github/fernthedev/config/snakeyaml/SnakeYamlConfig.java,4\f\4fa80011454175dbed03337ae7b59e5362a66a6c
+…
+Usrc/main/java/com/github/fernthedev/config/common/exceptions/ConfigLoadException.java,4\0\40774dbf613f7f49062eff0e052767bc5ac749a9
+‚
+Rsrc/main/java/com/github/fernthedev/config/common/exceptions/IConfigException.java,5\f\5fb6176c99cca7f6dfa3c5370091935081ec2348

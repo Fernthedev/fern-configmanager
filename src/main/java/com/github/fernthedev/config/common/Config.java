@@ -41,11 +41,32 @@ public abstract class Config<T> {
     @Getter
     protected File file;
 
+    /**
+     * Creates the config instance and saves the data. If the file does not exist,
+     * it saves using the constructed parameter.
+     *
+     * @param configData The default data saved if the file is nonexistent
+     * @param file The file to save
+     * @throws ConfigLoadException
+     */
     @SuppressWarnings("unchecked")
     public Config(@NonNull T configData, @NonNull File file) throws ConfigLoadException {
+        this(configData, (Class<T>) configData.getClass(), file);
+    }
+
+    /**
+     * Creates the config instance and saves the data. If the file does not exist,
+     * it saves using the constructed parameter.
+     *
+     * @param configData The default data saved if the file is nonexistent
+     * @param file The file to save
+     * @throws ConfigLoadException
+     */
+    @SuppressWarnings("unchecked")
+    public Config(T configData, Class<T> tClass, @NonNull File file) throws ConfigLoadException {
         this.configData = configData;
         this.file = file;
-        this.tClass = (Class<T>) configData.getClass();
+        this.tClass = tClass;
 
         load();
     }

@@ -4,6 +4,8 @@ import com.github.fernthedev.config.common.Config;
 import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import lombok.NonNull;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.nodes.Tag;
 
 import java.io.File;
 import java.util.List;
@@ -13,10 +15,22 @@ import java.util.List;
  * @param <T> The data type
  */
 public class SnakeYamlConfig<T> extends Config<T> {
-    private static final Yaml yaml = new Yaml();
+    @NonNull
+    private Yaml yaml;
+
+    private Yaml constructYaml() {
+        return new Yaml(new Constructor(tClass));
+    }
+
+    private Yaml getYaml() {
+        if (yaml == null)
+            return yaml = constructYaml();
+        return yaml;
+    }
 
     public SnakeYamlConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
         super(gsonConfigData, file);
+        this.yaml = constructYaml();
     }
 
     /**
@@ -25,10 +39,8 @@ public class SnakeYamlConfig<T> extends Config<T> {
      */
     @Override
     protected String configToFileString() {
-
 //        Map<String, Object> valueMap = toKeyMap(configData);
-
-        return yaml.dump(configData);
+        return getYaml().dumpAs(configData, Tag.MAP, null);
     }
 
 //    private Map<String, Object> toKeyMap(Object classObj) {
@@ -72,7 +84,7 @@ public class SnakeYamlConfig<T> extends Config<T> {
 
         for (String s : json) jsonString.append(s);
 
-        return yaml.loadAs(jsonString.toString(), tClass);
+        return getYaml().loadAs(jsonString.toString(), tClass);
     }
 
 }
