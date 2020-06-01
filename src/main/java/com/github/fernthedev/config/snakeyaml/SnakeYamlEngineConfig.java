@@ -2,11 +2,13 @@ package com.github.fernthedev.config.snakeyaml;
 
 import com.github.fernthedev.config.common.Config;
 import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
+import lombok.Getter;
 import lombok.NonNull;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.introspector.BeanAccess;
-import org.yaml.snakeyaml.nodes.Tag;
+import lombok.Setter;
+import org.snakeyaml.engine.v2.api.Dump;
+import org.snakeyaml.engine.v2.api.DumpSettings;
+import org.snakeyaml.engine.v2.api.Load;
+import org.snakeyaml.engine.v2.api.LoadSettings;
 
 import java.io.File;
 import java.util.List;
@@ -15,35 +17,62 @@ import java.util.List;
  *
  * @param <T> The data type
  */
-public class SnakeYamlConfig<T> extends Config<T> {
-//    public static final Pattern UUID_PATTERN = Pattern
-//            .compile("^(?:\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12})$");
-//    public static final Tag UUID_TAG = new Tag(Tag.PREFIX + "java.util.UUID");
+public class SnakeYamlEngineConfig<T> extends Config<T> {
 
+    @Getter
+    @Setter
     @NonNull
-    private Yaml yaml;
+    private Dump dumpSettings;
 
-    private Yaml constructYaml() {
-        yaml = new Yaml(new Constructor(tClass));
-//        yaml.addImplicitResolver(UUID_TAG, UUID_PATTERN, null);
-        return yaml;
+    @Getter
+    @Setter
+    @NonNull
+    private Load loadSettings;
+
+    /**
+     * Creates the config instance and saves the data. If the file does not exist,
+     * it saves using the constructed parameter.
+     *
+     * @param configData The default data saved if the file is nonexistent
+     * @param file       The file to save
+     * @throws ConfigLoadException
+     */
+    public SnakeYamlEngineConfig(T configData, @NonNull File file, Dump dumpSettings, Load loadSettings) throws ConfigLoadException {
+        super(configData, file);
+        this.dumpSettings = dumpSettings;
+        this.loadSettings = loadSettings;
     }
 
-    private Yaml getYaml() {
-        if (yaml == null)
-            return yaml = constructYaml();
-        return yaml;
+    /**
+     * Creates the config instance and saves the data. If the file does not exist,
+     * it saves using the constructed parameter.
+     *
+     * @param configData The default data saved if the file is nonexistent
+     * @param tClass
+     * @param file       The file to save
+     * @throws ConfigLoadException
+     */
+    public SnakeYamlEngineConfig(T configData, Class<T> tClass, @NonNull File file, Dump dumpSettings, Load loadSettings) throws ConfigLoadException {
+        super(configData, tClass, file);
+        this.dumpSettings = dumpSettings;
+        this.loadSettings = loadSettings;
     }
 
-    public SnakeYamlConfig<T> setBeanAccess(BeanAccess access) {
-        getYaml().setBeanAccess(access);
-        return this;
-    }
-
-    public SnakeYamlConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
+    public SnakeYamlEngineConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
         super(gsonConfigData, file);
-        this.yaml = constructYaml();
+        defaultDumpInit();
+        defaultLoadInit();
     }
+
+    private void defaultLoadInit() {
+        loadSettings = new Load(LoadSettings.builder().build());
+    }
+
+    private void defaultDumpInit() {
+        dumpSettings = new Dump(DumpSettings.builder().build());
+    }
+
+
 
     /**
      * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(List)}
@@ -51,8 +80,10 @@ public class SnakeYamlConfig<T> extends Config<T> {
      */
     @Override
     public String configToFileString() {
+        if (dumpSettings == null) defaultDumpInit();
+
+        return dumpSettings.dumpToString(configData);
 //        Map<String, Object> valueMap = toKeyMap(configData);
-        return getYaml().dumpAs(configData, Tag.MAP, null);
     }
 
 //    private Map<String, Object> toKeyMap(Object classObj) {
@@ -96,7 +127,9 @@ public class SnakeYamlConfig<T> extends Config<T> {
 
         for (String s : json) jsonString.append(s);
 
-        return getYaml().loadAs(jsonString.toString(), tClass);
+        if (loadSettings == null) defaultLoadInit();
+
+        return (T) loadSettings.loadFromString(jsonString.toString());
     }
 
 }

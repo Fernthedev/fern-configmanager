@@ -18,7 +18,7 @@ public class GsonConfig<T> extends Config<T> {
     private static final Gson defaultPrettyGson;
 
     static {
-        defaultPrettyGson = new GsonBuilder().setPrettyPrinting().create();
+        defaultPrettyGson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     }
 
     @Setter
@@ -38,7 +38,7 @@ public class GsonConfig<T> extends Config<T> {
      * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(List)}
      */
     @Override
-    protected String configToFileString() {
+    public String configToFileString() {
         if (configData == null) throw new NullPointerException("Config data is null");
         if (gson == null) gson = defaultPrettyGson;
 

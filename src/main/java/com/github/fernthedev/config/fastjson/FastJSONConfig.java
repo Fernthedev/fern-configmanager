@@ -22,7 +22,7 @@ public class FastJSONConfig<T> extends Config<T> {
      * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(List)}
      */
     @Override
-    protected String configToFileString() {
+    public String configToFileString() {
         return JSON.toJSONString(configData);
     }
 

@@ -165,7 +165,7 @@ public abstract class Config<T> {
      * Should return a String representation of the file {@link #configData}. This string representation should be the way that it is read in {@link #parseConfigFromData(List)}
      * @return String representation of {@link #configData} that is read by {@link #parseConfigFromData(List)}
      */
-    protected abstract String configToFileString();
+    public abstract String configToFileString();
 
     /**
      * Returns the object instance of {@link #configData} parsed from the file which is saved by {@link #configToFileString()}
