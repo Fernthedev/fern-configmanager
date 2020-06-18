@@ -47,10 +47,9 @@ public abstract class Config<T> {
      *
      * @param configData The default data saved if the file is nonexistent
      * @param file The file to save
-     * @throws ConfigLoadException
      */
     @SuppressWarnings("unchecked")
-    public Config(@NonNull T configData, @NonNull File file) throws ConfigLoadException {
+    public Config(@NonNull T configData, @NonNull File file) {
         this(configData, (Class<T>) configData.getClass(), file);
     }
 
@@ -60,15 +59,12 @@ public abstract class Config<T> {
      *
      * @param configData The default data saved if the file is nonexistent
      * @param file The file to save
-     * @throws ConfigLoadException
      */
     @SuppressWarnings("unchecked")
-    public Config(T configData, Class<T> tClass, @NonNull File file) throws ConfigLoadException {
+    public Config(T configData, Class<T> tClass, @NonNull File file) {
         this.configData = configData;
         this.file = file;
         this.tClass = tClass;
-
-        load();
     }
 
     /**
