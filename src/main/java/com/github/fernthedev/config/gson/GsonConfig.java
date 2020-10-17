@@ -17,7 +17,6 @@ import java.util.List;
 public class GsonConfig<T> extends Config<T> {
     private static final Gson defaultPrettyGson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-    @Setter
     @NonNull
     protected Gson gson;
 
@@ -40,7 +39,7 @@ public class GsonConfig<T> extends Config<T> {
     @Override
     public String configToFileString() {
         if (configData == null) throw new NullPointerException("Config data is null");
-        if (gson == null) gson = defaultPrettyGson;
+        if (gson == null) throw new NullPointerException("Gson is null. Why?");
 
         return gson.toJson(configData);
     }
@@ -55,7 +54,10 @@ public class GsonConfig<T> extends Config<T> {
         StringBuilder jsonString = new StringBuilder();
 
         for (String s : json) jsonString.append(s);
-        return defaultPrettyGson.fromJson(jsonString.toString(), tClass);
+        return gson.fromJson(jsonString.toString(), tClass);
     }
 
+    public void setGson(@NonNull Gson gson) {
+        this.gson = gson;
+    }
 }
