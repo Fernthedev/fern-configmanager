@@ -15,22 +15,22 @@ import java.util.List;
  * @param <T> The data type
  */
 public class GsonConfig<T> extends Config<T> {
-    private static final Gson defaultPrettyGson;
-
-    static {
-        defaultPrettyGson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    }
+    private static final Gson defaultPrettyGson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     @Setter
     @NonNull
-    private Gson gson;
+    protected Gson gson;
 
-    public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) throws ConfigLoadException {
+    public GsonConfig(@NonNull T gsonConfigData, @NonNull File file) {
+        this(gsonConfigData, file, defaultPrettyGson);
+    }
+
+    public GsonConfig(@NonNull T gsonConfigData, @NonNull File file, @NonNull Gson gson) {
         super(gsonConfigData, file);
         if (configData == null) throw new NullPointerException("Config data is null");
-        gson = defaultPrettyGson;
+        this.gson = gson;
 
-        if (gson == null) throw new NullPointerException("Gson is null");
+        if (this.gson == null) throw new NullPointerException("Gson is null");
     }
 
     /**
